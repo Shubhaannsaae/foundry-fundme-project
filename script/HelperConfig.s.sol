@@ -21,22 +21,20 @@ contract HelperConfig is Script {
     }
 
     constructor() {
-        if(block.chainid == 11155111) {
+        if (block.chainid == 11155111) {
             activeNetworkConfig = getSepoliaETHConfig();
-        } else{
+        } else {
             activeNetworkConfig = getOrCreateAnvilETHConfig();
         }
     }
 
     function getSepoliaETHConfig() public pure returns (NetworkConfig memory) {
-        NetworkConfig memory sepoliaConfig = NetworkConfig({
-            priceFeed : 0x694AA1769357215DE4FAC081bf1f309aDC325306
-        });
+        NetworkConfig memory sepoliaConfig = NetworkConfig({priceFeed: 0x694AA1769357215DE4FAC081bf1f309aDC325306});
         return sepoliaConfig;
     }
 
     function getOrCreateAnvilETHConfig() public returns (NetworkConfig memory) {
-        if(activeNetworkConfig.priceFeed != address(0)) {
+        if (activeNetworkConfig.priceFeed != address(0)) {
             return activeNetworkConfig;
         }
 
@@ -44,12 +42,10 @@ contract HelperConfig is Script {
         // 2. Return the mock addresses
 
         vm.startBroadcast();
-        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(DECIMALS, INITIAL_PRICE); 
+        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(DECIMALS, INITIAL_PRICE);
         vm.stopBroadcast();
 
-        NetworkConfig memory anvilConfig = NetworkConfig({
-            priceFeed : address(mockPriceFeed)
-        });
+        NetworkConfig memory anvilConfig = NetworkConfig({priceFeed: address(mockPriceFeed)});
 
         return anvilConfig;
     }

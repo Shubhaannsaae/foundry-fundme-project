@@ -2,7 +2,8 @@
 pragma solidity ^0.8.18;
 
 // Note: The AggregatorV3Interface might be at a different location than what was in the video!
-import {AggregatorV3Interface} from "../lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import {AggregatorV3Interface} from
+    "../lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 import {PriceConverter} from "./PriceConverter.sol";
 
@@ -11,7 +12,7 @@ error FundMe__NotOwner();
 contract FundMe {
     using PriceConverter for uint256;
 
-    mapping(address => uint256) private s_addressToAmountFunded; 
+    mapping(address => uint256) private s_addressToAmountFunded;
     // private is more gas efficient than public
     address[] private s_funders;
 
@@ -50,7 +51,7 @@ contract FundMe {
         }
         s_funders = new address[](0);
         (bool callSuccess,) = payable(msg.sender).call{value: address(this).balance}("");
-        require(callSuccess, "Call failed"); 
+        require(callSuccess, "Call failed");
     }
 
     function withdraw() public onlyOwner {
@@ -59,7 +60,7 @@ contract FundMe {
             s_addressToAmountFunded[funder] = 0;
         }
         s_funders = new address[](0);
-        
+
         // // transfer
         // payable(msg.sender).transfer(address(this).balance);
 
@@ -92,7 +93,7 @@ contract FundMe {
     }
 
     // View / Pure functions
-    
+
     function getAddressToAmountFunded(address fundingAddress) external view returns (uint256) {
         return s_addressToAmountFunded[fundingAddress];
     }
