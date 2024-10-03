@@ -1,0 +1,3 @@
+forge init
+forge test --> to compile the code and test the cases
+forge script script/DeployFundMe.s.sol --> run the script
